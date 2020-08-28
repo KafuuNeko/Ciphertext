@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/cancel.png</file>
+        <file>image/confirm.png</file>
+        <file>image/save.png</file>
+        <file>image/select.png</file>
+        <file>image/file.png</file>
+    </qresource>
+</RCC>
