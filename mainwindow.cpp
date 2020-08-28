@@ -14,17 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-//    tea::Bytes bytes({255, 22, 33, 44, 55, 66, 255, 255});
-//    uint64_t value = tea::bytesToInt64(bytes, 0);
-//    tea::Bytes rec(8);
-//    tea::int64ToBytes(value, rec, 0);
+    //    tea::Bytes bytes({255, 22, 33, 44, 55, 66, 255, 255});
+    //    uint64_t value = tea::bytesToInt64(bytes, 0);
+    //    tea::Bytes rec(8);
+    //    tea::int64ToBytes(value, rec, 0);
 
-//    qDebug() << value;
+    //    qDebug() << value;
 
-//    for(int i = 0; i < 8; ++i)
-//    {
-//        qDebug() << rec.get()[i];
-//    }
+    //    for(int i = 0; i < 8; ++i)
+    //    {
+    //        qDebug() << rec.get()[i];
+    //    }
 
     initTextEditor();
 
@@ -50,7 +50,7 @@ void MainWindow::textOpen()
     QFile file(fileName);
     file.open(QIODevice::ReadOnly);
     QByteArray bytes = file.readAll();
-    tea::Bytes data = tea::Bytes(reinterpret_cast<tea::byte*>(bytes.data()), bytes.size());
+    tea::Bytes data = tea::Bytes(reinterpret_cast<tea::byte*>(bytes.data()), bytes.size(), false);
     file.close();
 
     PasswordDialog passwordDialog(this, this->textPassword_);
@@ -70,8 +70,6 @@ void MainWindow::textOpen()
         else
             QMessageBox::critical(this, "Error:", "解密失败，可能密码错误，请重试");
     } while(!decrpy_flag);
-
-    data.reset();
 }
 
 void MainWindow::textSave()
@@ -90,7 +88,6 @@ void MainWindow::textSave()
     file.open(QIODevice::WriteOnly);
     tea::Bytes bytes = tea::encrypt_string(ui->textContent->toHtml().toStdString(), tea::Key(this->textPassword_.toStdString()));
     file.write(reinterpret_cast<char*>(bytes.get()), bytes.size());
-    bytes.reset();
     QMessageBox::information(this, "信息：", "保存成功");
     file.close();
 }
