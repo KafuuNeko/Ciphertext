@@ -13,19 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    //    tea::Bytes bytes({255, 22, 33, 44, 55, 66, 255, 255});
-    //    uint64_t value = tea::bytesToInt64(bytes, 0);
-    //    tea::Bytes rec(8);
-    //    tea::int64ToBytes(value, rec, 0);
-
-    //    qDebug() << value;
-
-    //    for(int i = 0; i < 8; ++i)
-    //    {
-    //        qDebug() << rec.get()[i];
-    //    }
-
     initTextEditor();
 
 }
@@ -85,9 +72,16 @@ void MainWindow::textSave()
     ui->textPath->setText(fileName);
 
     QFile file(fileName);
-    file.open(QIODevice::WriteOnly);
-    tea::Bytes bytes = tea::encrypt_string(ui->textContent->toHtml().toStdString(), tea::Key(this->textPassword_.toStdString()));
-    file.write(reinterpret_cast<char*>(bytes.get()), bytes.size());
-    QMessageBox::information(this, "信息：", "保存成功");
-    file.close();
+    if(file.open(QIODevice::WriteOnly))
+    {
+        tea::Bytes bytes = tea::encrypt_string(ui->textContent->toHtml().toStdString(), tea::Key(this->textPassword_.toStdString()));
+        file.write(reinterpret_cast<char*>(bytes.get()), bytes.size());
+        QMessageBox::information(this, "信息：", "保存成功");
+        file.close();
+    }
+    else
+    {
+        QMessageBox::critical(this, "错误:", "无法写入数据到指定文件！");
+    }
+
 }
