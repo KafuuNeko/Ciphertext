@@ -35,7 +35,12 @@ void MainWindow::textOpen()
     ui->textPath->setText(fileName);
 
     QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::critical(this, "Error:", "无法打开文件");
+        return;
+    }
+
     QByteArray bytes = file.readAll();
     tea::Bytes data = tea::Bytes(reinterpret_cast<tea::byte*>(bytes.data()), bytes.size(), false);
     file.close();
