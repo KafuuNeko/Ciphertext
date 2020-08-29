@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>文本加密  by KafuuNeko(https://kafuu.cc)</string>
+   <string>文本加密1.0  by KafuuNeko(https://kafuu.cc)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
